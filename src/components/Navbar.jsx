@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FiVolume2, FiVolumeX } from 'react-icons/fi';
 
-// Simple pill‑shaped floating navbar
-// Uses Tailwind CSS for styling. Adjust items as needed.
 const NAV_ITEMS = [
-  { id: 'home', label: 'Home', targetId: 'hero-section' },
-  { id: 'about', label: 'About', targetId: 'about-section' },
-  { id: 'portfolio', label: 'Portfolio', targetId: 'portfolio-section' },
-  { id: 'contact', label: 'Contact', targetId: 'contact-section' },
+  { id: 'home', label: 'Home', targetId: 'home' },
+  { id: 'about', label: 'About', targetId: 'about' },
+  { id: 'portfolio', label: 'Portfolio', targetId: 'portfolio' },
+  { id: 'contact', label: 'Contact', targetId: 'contact' },
 ];
 
 export default function Navbar() {
   const [active, setActive] = useState('home');
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  // Update active link based on scroll position
+  // Otomatis mengubah menu aktif sesuai posisi scroll
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      // Simple heuristic: find the section whose top is closest to current scroll
-      let current = 'home';
-      NAV_ITEMS.forEach(item => {
+      NAV_ITEMS.forEach((item) => {
         const el = document.getElementById(item.targetId);
         if (el) {
-          const offset = Math.abs(el.offsetTop - scrollY);
-          if (offset < 200) {
-            current = item.id;
+          const top = el.offsetTop - 150;
+          const height = el.offsetHeight;
+          if (scrollY >= top && scrollY < top + height) {
+            setActive(item.id);
           }
         }
       });
-      setActive(current);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Fungsi smooth scroll saat tombol diklik
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -40,20 +40,40 @@ export default function Navbar() {
     }
   };
 
+  const toggleAudio = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   return (
-    <nav className="fixed top-4 inset-x-0 mx-auto max-w-3xl z-20">
-      <ul className="flex justify-center items-center space-x-4 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 text-sm text-white">
-        {NAV_ITEMS.map(item => (
-          <li key={item.id}>
-            <button
-              className={`px-3 py-1 rounded transition-colors ${active === item.id ? 'bg-white/30' : ''}`}
-              onClick={() => scrollToSection(item.targetId)}
-            >
-              {item.label}
-            </button>
-          </li>
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto">
+      <div className="flex items-center gap-2 bg-[#121318]/80 backdrop-blur-xl border border-gray-700/50 px-4 py-2 rounded-full shadow-xl shadow-black/40">
+        {NAV_ITEMS.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => scrollToSection(item.targetId)}
+            className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+              active === item.id
+                ? 'bg-gray-800 text-white border border-gray-700/60 shadow-inner'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
+            }`}
+          >
+            {item.label}
+          </button>
         ))}
-      </ul>
+
+        {/* Tombol Audio */}
+        <button
+          onClick={toggleAudio}
+          className="p-2 text-gray-300 hover:text-white bg-gray-800/60 hover:bg-gray-700/70 rounded-full transition-all duration-300 border border-gray-700/50 ml-1"
+          title="Toggle Music"
+        >
+          {isPlaying ? (
+            <FiVolume2 className="w-4 h-4 text-blue-400" />
+          ) : (
+            <FiVolumeX className="w-4 h-4" />
+          )}
+        </button>
+      </div>
     </nav>
   );
 }

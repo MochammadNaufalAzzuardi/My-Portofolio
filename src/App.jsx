@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SpaceBackground from './components/SpaceBackground';
+import About from './components/About';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <div className="relative z-10">
         <Navbar />
         <Hero />
+        <About />
       </div>
     </div>
   );
