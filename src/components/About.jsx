@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <section id="about" className="py-24 bg-[#0a0a0a] text-white">
+    <section id="about" className="py-24 bg-transparent text-white relative z-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Judul Utama */}
