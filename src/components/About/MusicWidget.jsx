@@ -5,9 +5,9 @@ import { useAudio } from '../../context/AudioContext';
 
 /**
  * Komponen Spotify Music Widget Interaktif dengan Koleksi 62 Musik Asli Pengguna
- * - Menggunakan state audio global (AudioContext) tersinkronisasi penuh dengan Navbar
- * - Fitur: Play/Pause, Next/Prev, Shuffle, Seek progress bar, dan Search lagu
- * - Tampilan visual otentik bertema Spotify Glassmorphism
+ * - Cover album otomatis diekstrak dari metadata ID3 asli masing-masing file MP3
+ * - Cover otomatis berganti sesuai lagu yang sedang diputar
+ * - Menampilkan thumbnail cover di setiap baris playlist
  */
 export default function MusicWidget() {
   const {
@@ -28,6 +28,14 @@ export default function MusicWidget() {
   } = useAudio();
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Helper untuk menentukan URL cover album presisi dengan base path Vite
+  const resolveCoverUrl = (coverPath) => {
+    if (!coverPath) return null;
+    const base = import.meta.env.BASE_URL || '/';
+    const cleanBase = base.endsWith('/') ? base : `${base}/`;
+    return `${cleanBase}music/${coverPath}`;
+  };
 
   // Handle klik progress bar untuk lompat waktu (seek)
   const handleSeek = (e) => {
@@ -87,22 +95,30 @@ export default function MusicWidget() {
         </div>
 
         {/* ===================================================================== */}
-        {/* SISI KANAN: Spotify Player Card                                       */}
+        {/* SISI KANAN: Player Card Ala Spotify dengan Cover Album Dinamis       */}
         {/* ===================================================================== */}
         <div className="lg:col-span-7">
           <div className="rounded-2xl bg-[#12141c]/90 border border-white/[0.08] p-5 sm:p-6 shadow-2xl relative overflow-hidden">
             {/* Header Player */}
             <div className="flex items-start gap-4 mb-5">
-              {/* Cover Collage 4 Kotak Estetik */}
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden grid grid-cols-2 grid-rows-2 shrink-0 border border-white/10 shadow-lg relative group">
-                <div className="bg-gradient-to-br from-amber-700 to-yellow-800 flex items-center justify-center text-[10px] text-white/90 font-bold">Adele</div>
-                <div className="bg-gradient-to-br from-amber-600 to-rose-700 flex items-center justify-center text-[10px] text-white/90 font-bold">1D</div>
-                <div className="bg-gradient-to-br from-red-600 to-rose-900 flex items-center justify-center text-[10px] text-white/90 font-bold">JB</div>
-                <div className="bg-gradient-to-br from-yellow-600 to-amber-800 flex items-center justify-center text-[10px] text-white/90 font-bold">SZA</div>
+              {/* Cover Album Dinamis (Berganti sesuai lagu yang sedang diputar) */}
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-amber-400/30 shadow-xl shadow-amber-500/10 relative group bg-black/60">
+                {currentTrack?.cover ? (
+                  <img
+                    src={resolveCoverUrl(currentTrack.cover)}
+                    alt={currentTrack.title}
+                    key={currentTrack.id}
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-amber-600 to-yellow-800 flex items-center justify-center font-bold text-white text-xs">
+                    MP3
+                  </div>
+                )}
 
                 {/* Animated Equalizer saat Musik Berputar */}
                 {isPlaying && (
-                  <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px] flex items-center justify-center">
                     <span className="flex items-end gap-[3px] h-4">
                       <span className="w-1 bg-amber-400 rounded-full animate-[bounce_0.8s_infinite] h-3" />
                       <span className="w-1 bg-yellow-300 rounded-full animate-[bounce_1.2s_infinite] h-4" />
@@ -207,8 +223,8 @@ export default function MusicWidget() {
               />
             </div>
 
-            {/* Daftar Lagu (Scrollable Track List dengan 62 Lagu) */}
-            <div className="flex flex-col gap-1 max-h-52 overflow-y-auto pr-1 select-none custom-scrollbar">
+            {/* Daftar Lagu (Scrollable Track List dengan Thumbnail Cover Asli) */}
+            <div className="flex flex-col gap-1 max-h-56 overflow-y-auto pr-1 select-none custom-scrollbar">
               {filteredPlaylist.length === 0 ? (
                 <p className="text-xs text-gray-500 text-center py-4">Lagu tidak ditemukan</p>
               ) : (
@@ -220,20 +236,39 @@ export default function MusicWidget() {
                     <div
                       key={track.id}
                       onClick={() => selectTrack(originalIndex)}
-                      className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
+                      className={`flex items-center justify-between p-2 rounded-xl cursor-pointer transition-all duration-200 ${
                         isCurrent
-                          ? 'bg-amber-500/10 text-white border border-amber-400/20 shadow-sm'
+                          ? 'bg-amber-500/15 text-white border border-amber-400/30 shadow-sm'
                           : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0 pr-2">
-                        <span className="w-5 text-center text-xs font-mono font-medium text-gray-400">
+                        {/* Nomor / Indikator Play */}
+                        <span className="w-4 text-center text-xs font-mono font-medium text-gray-400 shrink-0">
                           {isCurrent && isPlaying ? (
                             <span className="text-amber-400 font-bold">▶</span>
                           ) : (
                             originalIndex + 1
                           )}
                         </span>
+
+                        {/* Thumbnail Cover Album Asli di Setiap Baris */}
+                        <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-white/10 relative bg-black/40">
+                          {track.cover ? (
+                            <img
+                              src={resolveCoverUrl(track.cover)}
+                              alt={track.title}
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-white/5 flex items-center justify-center text-[10px] text-gray-400">
+                              ♪
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Title & Artist */}
                         <div className="truncate">
                           <p
                             className={`text-xs sm:text-sm font-semibold truncate ${
