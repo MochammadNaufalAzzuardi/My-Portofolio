@@ -359,9 +359,9 @@ const Card3D = () => {
         <directionalLight position={[6, 8, 6]} intensity={1.6} />
         <directionalLight position={[-6, 6, -4]} intensity={0.6} color="#ffffff" />
 
-        {/* Aksen Neon Biru Cyberpunk */}
-        <pointLight position={[-4, -0.5, 3]} intensity={2.5} color="#38bdf8" distance={9} />
-        <pointLight position={[4, 1.8, 2.5]} intensity={2.0} color="#60a5fa" distance={8} />
+        {/* Aksen Neon Emas Mewah */}
+        <pointLight position={[-4, -0.5, 3]} intensity={2.5} color="#f59e0b" distance={9} />
+        <pointLight position={[4, 1.8, 2.5]} intensity={2.0} color="#fbbf24" distance={8} />
 
         <Suspense fallback={null}>
           <InteractiveLanyardBadge />

@@ -40,7 +40,7 @@ const Typewriter = () => {
     <div className="h-9 flex items-center mb-6">
       <h2 className="text-xl md:text-2xl text-gray-200 font-semibold tracking-wide">
         {currentText}
-        <span className="inline-block w-[3px] h-6 bg-blue-500 ml-1.5 animate-pulse align-middle"></span>
+        <span className="inline-block w-[3px] h-6 bg-amber-400 ml-1.5 animate-pulse align-middle"></span>
       </h2>
     </div>
   );
@@ -49,9 +49,9 @@ const Typewriter = () => {
 const Hero = () => {
   return (
     <section id="home" className="min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden">
-      {/* Background Glow Cyberpunk Halus */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-600/15 rounded-full blur-[128px] pointer-events-none -z-10"></div>
-      <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-[128px] pointer-events-none -z-10"></div>
+      {/* Background Glow Emas Angkasa Halus */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-amber-600/15 rounded-full blur-[128px] pointer-events-none -z-10"></div>
+      <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-yellow-500/10 rounded-full blur-[128px] pointer-events-none -z-10"></div>
 
       {/* ========================================================================= */}
       {/* FULL-SECTION 3D CANVAS (Mencakup seluruh layar Hero: Tanpa batas potong!) */}
@@ -68,16 +68,10 @@ const Hero = () => {
           
           {/* Sisi Kiri: Teks & Tombol (pointer-events-auto agar tombol dan teks bisa diklik) */}
           <div className="lg:col-span-6 pointer-events-auto">
-            {/* Tag Badge Mini */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6 tracking-wide">
-              <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
-              <span>Available for New Projects</span>
-            </div>
-
             {/* Judul Utama */}
             <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-3 tracking-tight leading-[1.15]">
               Welcome to <br />
-              <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-blue-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent">
                 My Portfolio
               </span>
             </h1>
@@ -94,7 +88,7 @@ const Hero = () => {
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="#portfolio"
-                className="group inline-flex items-center gap-2.5 bg-blue-600 hover:bg-blue-500 text-white px-7 py-3.5 rounded-full font-semibold transition-all duration-300 shadow-lg shadow-blue-600/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 active:translate-y-0"
+                className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black px-7 py-3.5 rounded-full font-bold transition-all duration-300 shadow-lg shadow-amber-500/25 hover:shadow-amber-400/40 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>Lihat Projek</span>
                 <FiArrowUpRight className="text-lg transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -102,9 +96,9 @@ const Hero = () => {
 
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 border border-gray-700 hover:border-gray-500 bg-white/[0.03] hover:bg-white/[0.08] backdrop-blur-md text-gray-200 hover:text-white px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                className="group inline-flex items-center gap-2 border border-gray-700 hover:border-amber-500/50 bg-white/[0.03] hover:bg-amber-500/[0.06] backdrop-blur-md text-gray-200 hover:text-white px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
               >
-                <FiSend className="text-base text-gray-400 group-hover:text-blue-400 transition-colors" />
+                <FiSend className="text-base text-gray-400 group-hover:text-amber-400 transition-colors" />
                 <span>Hubungi Saya</span>
               </a>
             </div>
@@ -119,7 +113,7 @@ const Hero = () => {
                   href="https://github.com/MochammadNaufalAzzuardi"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-blue-600/20 border border-gray-800 hover:border-blue-500/40 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-amber-500/15 border border-gray-800 hover:border-amber-400/40 flex items-center justify-center text-gray-400 hover:text-amber-300 transition-all duration-300 hover:-translate-y-1"
                   aria-label="GitHub"
                 >
                   <FaGithub className="text-lg" />
@@ -129,7 +123,7 @@ const Hero = () => {
                   href="https://tiktok.com/@nauvalargy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-blue-600/20 border border-gray-800 hover:border-blue-500/40 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-amber-500/15 border border-gray-800 hover:border-amber-400/40 flex items-center justify-center text-gray-400 hover:text-amber-300 transition-all duration-300 hover:-translate-y-1"
                   aria-label="TikTok"
                 >
                   <FaTiktok className="text-base" />
@@ -139,7 +133,7 @@ const Hero = () => {
                   href="https://instagram.com/nauvalargy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-blue-600/20 border border-gray-800 hover:border-blue-500/40 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-amber-500/15 border border-gray-800 hover:border-amber-400/40 flex items-center justify-center text-gray-400 hover:text-amber-300 transition-all duration-300 hover:-translate-y-1"
                   aria-label="Instagram"
                 >
                   <FaInstagram className="text-lg" />

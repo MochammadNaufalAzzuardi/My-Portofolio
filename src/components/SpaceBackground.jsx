@@ -23,8 +23,8 @@ const SpaceBackground = () => {
       speedY: Math.random() * 0.15 + 0.05,
       twinkleSpeed: Math.random() * 0.03 + 0.01,
       twinklePhase: Math.random() * Math.PI * 2,
-      // Warna bintang: putih murni, cyan terang, atau biru muda
-      color: Math.random() > 0.4 ? '#ffffff' : (Math.random() > 0.5 ? '#7dd3fc' : '#93c5fd'),
+      // Warna bintang: putih murni, emas hangat, atau kuning bintang lembut
+      color: Math.random() > 0.4 ? '#ffffff' : (Math.random() > 0.5 ? '#fef08a' : '#fde047'),
     }));
 
     // 2. Bintang Jatuh (Shooting Stars / Meteor)
@@ -88,7 +88,7 @@ const SpaceBackground = () => {
 
         // Glow untuk bintang yang cukup besar
         if (s.radius > 1.1) {
-          ctx.fillStyle = '#38bdf8';
+          ctx.fillStyle = '#fbbf24';
           ctx.globalAlpha = s.alpha * 0.35;
           ctx.beginPath();
           ctx.arc(s.x, s.y, s.radius * 2.8, 0, Math.PI * 2);
@@ -119,10 +119,10 @@ const SpaceBackground = () => {
         const tailX = m.x - (m.dx / dist) * m.length;
         const tailY = m.y - (m.dy / dist) * m.length;
 
-        // Ekor Gradien Menyala
+        // Ekor Gradien Emas Menyala
         const grad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
-        grad.addColorStop(0, 'rgba(56, 189, 248, 0)');
-        grad.addColorStop(0.6, `rgba(125, 211, 252, ${m.life * 0.6})`);
+        grad.addColorStop(0, 'rgba(245, 158, 11, 0)');
+        grad.addColorStop(0.6, `rgba(251, 191, 36, ${m.life * 0.6})`);
         grad.addColorStop(1, `rgba(255, 255, 255, ${m.life})`);
 
         ctx.strokeStyle = grad;

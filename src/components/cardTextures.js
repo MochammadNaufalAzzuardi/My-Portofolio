@@ -20,7 +20,7 @@ export function createCardFrontTexture(photoImg) {
   ctx.fillRect(0, 0, 1000, 1500);
 
   // Garis aksen grid halus
-  ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+  ctx.strokeStyle = 'rgba(245, 158, 11, 0.08)';
   ctx.lineWidth = 1.5;
   for (let y = 100; y < 1450; y += 70) {
     ctx.beginPath();
@@ -47,7 +47,7 @@ export function createCardFrontTexture(photoImg) {
   ctx.fillText('DEVELOPER', 500, 145);
 
   // Tag Kategori kecil di atas judul
-  ctx.fillStyle = '#2563eb';
+  ctx.fillStyle = '#f59e0b';
   ctx.font = 'bold 18px system-ui, sans-serif';
   ctx.letterSpacing = '4px';
   ctx.fillText('• OFFICIAL BADGE ID •', 500, 95);
@@ -65,9 +65,9 @@ export function createCardFrontTexture(photoImg) {
   const frameH = 640;
 
   // Outer Glow Border
-  ctx.shadowColor = '#38bdf8';
+  ctx.shadowColor = '#f59e0b';
   ctx.shadowBlur = 24;
-  ctx.strokeStyle = '#38bdf8';
+  ctx.strokeStyle = '#f59e0b';
   ctx.lineWidth = 6;
   drawRoundedRect(ctx, frameX, frameY, frameW, frameH, 28);
   ctx.stroke();
@@ -108,7 +108,7 @@ export function createCardFrontTexture(photoImg) {
   ctx.textAlign = 'center';
   ctx.fillText('MOCHAMMAD NAUFAL AZZUARDI', 500, 960);
 
-  ctx.fillStyle = '#38bdf8';
+  ctx.fillStyle = '#fbbf24';
   ctx.font = '700 26px system-ui, -apple-system, sans-serif';
   ctx.letterSpacing = '2px';
   ctx.fillText('3D & CREATIVE DEVELOPER', 500, 1010);
@@ -129,11 +129,11 @@ export function createCardFrontTexture(photoImg) {
   ctx.textAlign = 'center';
   ctx.fillText('* NF-2026-DEV-PORTFOLIO *', 500, 1220);
 
-  // 6. Badge Bawah: "PORTFOLIO" Besar & Bold (Persis seperti di video)
+  // 6. Badge Bawah: "PORTFOLIO" Besar & Bold Emas Mewah
   const botGrad = ctx.createLinearGradient(60, 1260, 940, 1420);
-  botGrad.addColorStop(0, '#1d4ed8');
-  botGrad.addColorStop(0.5, '#2563eb');
-  botGrad.addColorStop(1, '#0284c7');
+  botGrad.addColorStop(0, '#b45309');
+  botGrad.addColorStop(0.5, '#d97706');
+  botGrad.addColorStop(1, '#f59e0b');
   ctx.fillStyle = botGrad;
   drawRoundedRect(ctx, 60, 1260, 880, 160, 22);
   ctx.fill();
@@ -178,7 +178,7 @@ export function createCardBackTexture() {
   ctx.letterSpacing = '3px';
   ctx.fillText('SCAN HERE TO CONNECT', 500, 275);
 
-  ctx.fillStyle = '#38bdf8';
+  ctx.fillStyle = '#fbbf24';
   ctx.font = '700 22px system-ui, sans-serif';
   ctx.letterSpacing = '2px';
   ctx.fillText('GET IN TOUCH & EXPLORE PROJECTS', 500, 320);
@@ -209,15 +209,15 @@ export function createCardBackTexture() {
   const techs = ['REACT', 'THREE.JS', 'TAILWIND', 'VITE', 'JS'];
   let startX = 90;
   techs.forEach((tech) => {
-    ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
     drawRoundedRect(ctx, startX, 1090, 145, 48, 12);
     ctx.fill();
-    ctx.strokeStyle = '#38bdf8';
+    ctx.strokeStyle = '#f59e0b';
     ctx.lineWidth = 2;
     drawRoundedRect(ctx, startX, 1090, 145, 48, 12);
     ctx.stroke();
 
-    ctx.fillStyle = '#38bdf8';
+    ctx.fillStyle = '#fbbf24';
     ctx.font = 'bold 18px system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(tech, startX + 72, 1122);
@@ -260,8 +260,8 @@ export function createLanyardTexture() {
   ctx.fillStyle = '#0f1115';
   ctx.fillRect(0, 0, 2048, 256);
 
-  // Aksen Jahitan Garis Tepi
-  ctx.strokeStyle = '#2563eb';
+  // Aksen Jahitan Garis Tepi Emas
+  ctx.strokeStyle = '#f59e0b';
   ctx.lineWidth = 12;
   ctx.beginPath();
   ctx.moveTo(0, 18);
