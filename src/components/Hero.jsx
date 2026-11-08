@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FiArrowUpRight, FiSend } from 'react-icons/fi';
-import { FaGithub, FaTiktok, FaInstagram } from 'react-icons/fa6';
+import { FaGithub, FaInstagram } from 'react-icons/fa6';
 import Card3D from './Card3D';
 
 // Komponen Efek Ketik (Typewriter) Halus
@@ -103,14 +103,14 @@ const Hero = () => {
               </a>
             </div>
 
-            {/* Bagian FIND ME (Sosial Media) Sesuai Video */}
+            {/* Bagian FIND ME (Sosial Media) */}
             <div className="pt-8 border-t border-gray-800/80 mt-10">
               <span className="text-xs uppercase tracking-widest text-gray-500 font-bold block mb-3.5">
                 FIND ME
               </span>
               <div className="flex items-center space-x-3">
                 <a
-                  href="https://github.com/MochammadNaufalAzzuardi"
+                  href="https://github.com/MochammadNaufalAzzuardi/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-amber-500/15 border border-gray-800 hover:border-amber-400/40 flex items-center justify-center text-gray-400 hover:text-amber-300 transition-all duration-300 hover:-translate-y-1"
@@ -120,17 +120,7 @@ const Hero = () => {
                 </a>
 
                 <a
-                  href="https://tiktok.com/@nauvalargy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-amber-500/15 border border-gray-800 hover:border-amber-400/40 flex items-center justify-center text-gray-400 hover:text-amber-300 transition-all duration-300 hover:-translate-y-1"
-                  aria-label="TikTok"
-                >
-                  <FaTiktok className="text-base" />
-                </a>
-
-                <a
-                  href="https://instagram.com/nauvalargy"
+                  href="https://www.instagram.com/naufalazz1/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-xl bg-white/[0.05] hover:bg-amber-500/15 border border-gray-800 hover:border-amber-400/40 flex items-center justify-center text-gray-400 hover:text-amber-300 transition-all duration-300 hover:-translate-y-1"

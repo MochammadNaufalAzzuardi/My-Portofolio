@@ -199,7 +199,7 @@ export function createCardBackTexture() {
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 36px system-ui, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('@nauvalargy', 500, 990);
+  ctx.fillText('@naufalazz1', 500, 990);
 
   ctx.fillStyle = '#94a3b8';
   ctx.font = '500 22px monospace';
@@ -256,28 +256,57 @@ export function createLanyardTexture() {
   canvas.height = 256;
   const ctx = canvas.getContext('2d');
 
-  // Background Anyaman Tali (Hitam Karbon)
-  ctx.fillStyle = '#0f1115';
+  // Background Tali Hitam Pekat Elegan
+  ctx.fillStyle = '#060709';
   ctx.fillRect(0, 0, 2048, 256);
 
-  // Aksen Jahitan Garis Tepi Emas
-  ctx.strokeStyle = '#f59e0b';
-  ctx.lineWidth = 12;
+  // Tekstur Tenun Anyaman Halus (Weave texture mikro untuk realisme kain)
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.015)';
+  for (let x = 0; x < 2048; x += 5) {
+    ctx.fillRect(x, 0, 2, 256);
+  }
+
+  // Jahitan Tepi Halus Hitam Charcoal
+  ctx.strokeStyle = '#1e1e24';
+  ctx.lineWidth = 5;
+  ctx.setLineDash([14, 8]);
   ctx.beginPath();
-  ctx.moveTo(0, 18);
-  ctx.lineTo(2048, 18);
-  ctx.moveTo(0, 238);
-  ctx.lineTo(2048, 238);
+  ctx.moveTo(0, 14);
+  ctx.lineTo(2048, 14);
+  ctx.moveTo(0, 242);
+  ctx.lineTo(2048, 242);
   ctx.stroke();
+  ctx.setLineDash([]);
 
-  // Teks Tali Berulang
-  const phrase = 'MOCHAMMAD NAUFAL  ✦  CREATIVE DEVELOPER  ✦  PORTFOLIO  ✦  ';
+  // Nama Pengguna dalam Tulisan Putih Bersih, Tebal & Sangat Jelas Terbaca
+  const phrase = 'Mochammad Naufal Azzuardi';
   ctx.fillStyle = '#ffffff';
-  ctx.font = '900 68px system-ui, -apple-system, sans-serif';
+  ctx.font = '700 86px system-ui, -apple-system, sans-serif';
   ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
 
-  for (let i = 0; i < 2048; i += 1100) {
-    ctx.fillText(phrase, i, 150);
+  // Gambar Pengulangan Nama & Logo Lingkaran
+  const phraseWidth = ctx.measureText(phrase).width || 1100;
+  const itemWidth = phraseWidth + 180; // Lebar total 1 unit (logo + nama + padding)
+
+  for (let x = 30; x < 2048 + itemWidth; x += itemWidth) {
+    // 1. Gambar Logo Lingkaran Emblem (Persis seperti video referensi)
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.arc(x + 50, 128, 44, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Monogram di dalam lingkaran
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 38px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('NA', x + 50, 141);
+
+    // 2. Gambar Nama Lengkap
+    ctx.font = '700 86px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(phrase, x + 120, 128);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -288,7 +317,6 @@ export function createLanyardTexture() {
   return texture;
 }
 
-// Helper rounded rectangle
 function drawRoundedRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);

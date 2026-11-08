@@ -12,8 +12,9 @@ import {
 // ============================================================================
 // 🚀 OPTIMASI PERFORMA TINGGI (ZERO-GARBAGE COLLECTION & 60-120 FPS SMOOTH)
 // ============================================================================
-const RIBBON_SEGMENTS = 26;
-const RIBBON_WIDTH = 0.22;
+const RIBBON_SEGMENTS = 32;
+const RIBBON_WIDTH = 0.28;
+const CARD_SCALE = 0.82;
 
 // Objek scratch statis untuk mencegah alokasi memori berulang di tiap frame
 const _clipLocal = new THREE.Vector3(0, 1.82, 0);
@@ -76,12 +77,12 @@ const InteractiveLanyardBadge = () => {
       indices.push(idx + 1, idx + 3, idx + 2);
     }
 
-    for (let i = 0; i < RIBBON_SEGMENTS; i++) {
-      const v = (i / (RIBBON_SEGMENTS - 1)) * 4;
-      uvArr[i * 4 + 0] = 0;
-      uvArr[i * 4 + 1] = v;
-      uvArr[i * 4 + 2] = 1;
-      uvArr[i * 4 + 3] = v;
+        for (let i = 0; i < RIBBON_SEGMENTS; i++) {
+      const u = (i / (RIBBON_SEGMENTS - 1)) * 2.6;
+      uvArr[i * 4 + 0] = u;
+      uvArr[i * 4 + 1] = 0;
+      uvArr[i * 4 + 2] = u;
+      uvArr[i * 4 + 3] = 1;
     }
 
     const geom = new THREE.BufferGeometry();
@@ -195,11 +196,11 @@ const InteractiveLanyardBadge = () => {
       cardGroupRef.current.rotation.copy(rot.current);
     }
 
-    // 4. Update Geometri Pita Lanyard secara Langsung (Fast Math tanpa alokasi objek baru)
+    // 4. Update Geometri Pita Lanyard secara Langsung dengan Efek Pelintiran 3D (Twist Physics)
     if (ribbonGeomRef.current) {
       _topAnchor.set(restX, viewport.height * 0.5 + 0.8, 0);
 
-      _clipLocal.set(0, 1.82, 0).applyEuler(rot.current);
+      _clipLocal.set(0, 1.82 * CARD_SCALE, 0).applyEuler(rot.current);
       _bottomClip.addVectors(pos.current, _clipLocal);
 
       _midPoint.addVectors(_topAnchor, _bottomClip).multiplyScalar(0.5);
@@ -216,36 +217,68 @@ const InteractiveLanyardBadge = () => {
       const halfW = currentWidth * 0.5;
       const posArray = ribbonGeomRef.current.attributes.position.array;
 
-      // Evaluasi formula Quadratic Bezier secara langsung ke Float32Array (Sangat Cepat & Efisien)
+      // Hitung selisih rotasi sumbu Y dari sudut diam default (-0.28)
+      const deltaRotY = rot.current.y - (-0.28);
+
+      // Evaluasi formula Quadratic Bezier & Pelintiran (Twist) secara langsung
       for (let i = 0; i < RIBBON_SEGMENTS; i++) {
         const t = i / (RIBBON_SEGMENTS - 1);
         const it = 1 - t;
 
-        // Titik Bezier
+        // Titik Bezier pada pita
         const px = it * it * p0.x + 2 * it * t * p1.x + t * t * p2.x;
         const py = it * it * p0.y + 2 * it * t * p1.y + t * t * p2.y;
         const pz = it * it * p0.z + 2 * it * t * p1.z + t * t * p2.z;
 
-        // Turunan Tangent
+        // Turunan Tangent (vektor arah kurva)
         const tx = 2 * it * (p1.x - p0.x) + 2 * t * (p2.x - p1.x);
         const ty = 2 * it * (p1.y - p0.y) + 2 * t * (p2.y - p1.y);
+        const tz = 2 * it * (p1.z - p0.z) + 2 * t * (p2.z - p1.z);
 
-        // Vektor Normal tegak lurus
-        const len = Math.hypot(ty, -tx) || 1;
-        const nx = (ty / len) * halfW;
-        const ny = (-tx / len) * halfW;
+        const tLen = Math.hypot(tx, ty, tz) || 1;
+        const ntx = tx / tLen;
+        const nty = ty / tLen;
+        const ntz = tz / tLen;
+
+        // Vektor lebar dasar (W0) tegak lurus terhadap tangent pada bidang tampilan (untwisted)
+        const xyLen = Math.hypot(nty, -ntx) || 1;
+        const w0x = nty / xyLen;
+        const w0y = -ntx / xyLen;
+        const w0z = 0;
+
+        // Vektor normal muka pita dasar (N0 = T x W0)
+        let n0x = nty * w0z - ntz * w0y;
+        let n0y = ntz * w0x - ntx * w0z;
+        let n0z = ntx * w0y - nty * w0x;
+        const n0Len = Math.hypot(n0x, n0y, n0z) || 1;
+        n0x /= n0Len;
+        n0y /= n0Len;
+        n0z /= n0Len;
+
+        // Pelintiran halus (smooth twist) dari anchor atas (0) ke klip bawah (mengikuti rotasi kartu)
+        const twistFactor = t * t * (3 - 2 * t);
+        const currentTwist = twistFactor * deltaRotY;
+
+        const cosTwist = Math.cos(currentTwist);
+        const sinTwist = Math.sin(currentTwist);
+
+        // Vektor lebar yang telah dipelintir (Rotated ribbon width vector)
+        const wx = (w0x * cosTwist + n0x * sinTwist) * halfW;
+        const wy = (w0y * cosTwist + n0y * sinTwist) * halfW;
+        const wz = (w0z * cosTwist + n0z * sinTwist) * halfW;
 
         const idx = i * 6;
-        posArray[idx + 0] = px - nx;
-        posArray[idx + 1] = py - ny;
-        posArray[idx + 2] = pz;
+        posArray[idx + 0] = px - wx;
+        posArray[idx + 1] = py - wy;
+        posArray[idx + 2] = pz - wz;
 
-        posArray[idx + 3] = px + nx;
-        posArray[idx + 4] = py + ny;
-        posArray[idx + 5] = pz;
+        posArray[idx + 3] = px + wx;
+        posArray[idx + 4] = py + wy;
+        posArray[idx + 5] = pz + wz;
       }
 
       ribbonGeomRef.current.attributes.position.needsUpdate = true;
+      ribbonGeomRef.current.computeVertexNormals();
     }
   });
 
@@ -265,11 +298,12 @@ const InteractiveLanyardBadge = () => {
       {/* 2. BADGE KARTU ID INTERAKTIF */}
       <group
         ref={cardGroupRef}
+        scale={CARD_SCALE}
         onPointerDown={handlePointerDown}
       >
         {/* KLIP LOGAM */}
         <mesh position={[0, 1.95, 0]}>
-          <boxGeometry args={[0.34, 0.16, 0.08]} />
+          <boxGeometry args={[0.34, 0.15, 0.08]} />
           <meshStandardMaterial color="#cbd5e1" metalness={0.95} roughness={0.15} />
         </mesh>
 

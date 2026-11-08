@@ -2,6 +2,9 @@ import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About/About';
+import Portfolio from './components/Portfolio/Portfolio';
+import ContactSection from './components/Contact/ContactSection';
+import Footer from './components/Contact/Footer';
 import SpaceBackground from './components/SpaceBackground';
 import { AudioProvider } from './context/AudioContext';
 
@@ -23,35 +26,18 @@ function App() {
           {/* Section 1: Hero Section (Tahap 1) */}
           <Hero />
 
-          {/* Section 2: About Me (Tahap 3 Selesai) */}
+          {/* Section 2: About Me (Tahap 3) */}
           <About />
 
-          {/* Section 3: Portfolio (Placeholder untuk Tahap 4) */}
-          <section
-            id="portfolio"
-            className="min-h-screen flex items-center justify-center border-t border-gray-800/40 relative px-4"
-          >
-            <div className="text-center max-w-xl p-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-md">
-              <h2 className="text-3xl font-bold mb-3 text-white">Portfolio</h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Tab Projects, Certificates, dan Tech Stack interaktif akan kita bangun di Tahap 4.
-              </p>
-            </div>
-          </section>
+          {/* Section 3: Portfolio (Tahap 4) */}
+          <Portfolio />
 
-          {/* Section 4: Contact (Placeholder untuk Tahap 5) */}
-          <section
-            id="contact"
-            className="min-h-screen flex items-center justify-center border-t border-gray-800/40 relative px-4"
-          >
-            <div className="text-center max-w-xl p-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-md">
-              <h2 className="text-3xl font-bold mb-3 text-white">Contact</h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Formulir kontak langsung dan kolom komentar interaktif akan kita bangun di Tahap 5.
-              </p>
-            </div>
-          </section>
+          {/* Section 4: Contact & Komentar (Tahap 5) */}
+          <ContactSection />
         </main>
+
+        {/* 5. Footer (Tahap 5) */}
+        <Footer />
       </div>
     </AudioProvider>
   );
